@@ -6,5 +6,6 @@ namespace Business.Interfaces
     public interface IProjectService
     {
         ProjectEntity CreateProject(ProjectRegistrationForm form);
+        IEnumerable<ProjectEntity> GetAllProjects();
     }
 }

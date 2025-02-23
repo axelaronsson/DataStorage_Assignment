@@ -2,6 +2,7 @@
 using Business.Interfaces;
 using Data.Contexts;
 using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Service;
 
@@ -33,5 +34,10 @@ public class ProjectService(DataContext context, ICustomerService customerServic
         _context.SaveChanges();
 
         return projectEntity;
+    }
+
+    public IEnumerable<ProjectEntity> GetAllProjects()
+    {
+        return _context.Projects.Include(x => x.Customer).ToList();
     }
 }
