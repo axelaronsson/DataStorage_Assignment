@@ -15,13 +15,14 @@ namespace Presentation.WebApi.Controllers
         [HttpPost]
         public IActionResult Create(ProjectRegistrationForm form)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest();
+                var result = _projectService.CreateProject(form);
+                if (result != null)
+                    return Ok(result);
             }
 
-            var result = _projectService.CreateProject(form);
-            return Ok(result);
+            return BadRequest();
         }
 
         [EnableCors("CorsPolicy")]

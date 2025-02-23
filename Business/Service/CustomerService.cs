@@ -1,25 +1,17 @@
 ﻿using Business.Interfaces;
 using Data.Contexts;
 using Data.Entities;
+using Data.Interfaces;
 
 namespace Business.Service;
 
-public class CustomerService(DataContext context) : ICustomerService
+public class CustomerService(ICustomerRepository customerRepository) : ICustomerService
 {
-    private readonly DataContext _context = context;
+    private readonly ICustomerRepository _customerRepository = customerRepository;
 
     public CustomerEntity CreateCustomer(string name)
     {
-        var customerEntity = _context.Customers.FirstOrDefault(x => x.CustomerName == name);
-        if (customerEntity == null)
-        {
-            customerEntity = new CustomerEntity();
-            customerEntity!.CustomerName = name;
-            _context.Customers.Add(customerEntity);
-            _context.SaveChanges();
-
-        }
-
+        var customerEntity = _customerRepository.Create(name);
         return customerEntity;
     }
 }

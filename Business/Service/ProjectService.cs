@@ -2,13 +2,15 @@
 using Business.Interfaces;
 using Data.Contexts;
 using Data.Entities;
+using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Service;
 
-public class ProjectService(DataContext context, ICustomerService customerService) : IProjectService
+public class ProjectService(IProjectRepository projectRepository, ICustomerService customerService) : IProjectService
 {
-    private readonly DataContext _context = context;
+    private readonly IProjectRepository _projectRepository = projectRepository;
+    //private readonly DataContext _context = context;
     private readonly ICustomerService _customerService = customerService;
 
     public ProjectEntity CreateProject(ProjectRegistrationForm form)
@@ -29,15 +31,14 @@ public class ProjectService(DataContext context, ICustomerService customerServic
             ProductPrice = form.ProductPrice,
             TotalPrice = form.TotalPrice,
         };
+        // var entity = await _productRepository.GetAsync(x => x.Name == form.Name);
+        var entity = _projectRepository.Create(projectEntity);
 
-        _context.Projects.Add(projectEntity);
-        _context.SaveChanges();
-
-        return projectEntity;
+        return entity;
     }
 
     public IEnumerable<ProjectEntity> GetAllProjects()
     {
-        return _context.Projects.Include(x => x.Customer).ToList();
+        return _projectRepository.GetAll();
     }
 }
