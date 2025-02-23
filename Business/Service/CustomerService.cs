@@ -11,15 +11,12 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
 
     public CustomerEntity CreateCustomer(string name)
     {
-        // CheckIfCustomerExists - Görs redan i repositoryt??
         var customerEntity = _customerRepository.Create(name);
         return customerEntity;
     }
 
     public CustomerEntity CheckIfCustomerExists(string name)
     {
-        //var customerEntity = _customerRepository.Get();
-        //return customerEntity;
         return new CustomerEntity();
     }
 }

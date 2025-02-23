@@ -16,7 +16,6 @@ public class ProjectUpdateForm
     public DateTime EndDate { get; set; }
 
 
-    //public int CustomerId { get; set; }
     public CustomerEntity Customer { get; set; } = null!;
 
     public string Status { get; set; } = null!;
