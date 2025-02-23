@@ -1,4 +1,5 @@
-﻿using Business.Dtos;
+﻿using System.Linq.Expressions;
+using Business.Dtos;
 using Data.Entities;
 
 namespace Business.Interfaces
@@ -7,5 +8,7 @@ namespace Business.Interfaces
     {
         ProjectEntity CreateProject(ProjectRegistrationForm form);
         IEnumerable<ProjectEntity> GetAllProjects();
+        ProjectEntity GetProject(Expression<Func<ProjectEntity, bool>> expression);
+        ProjectEntity UpdateProject(ProjectUpdateForm form);
     }
 }

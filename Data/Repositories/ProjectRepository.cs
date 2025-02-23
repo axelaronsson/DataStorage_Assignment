@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq.Expressions;
 using Data.Contexts;
 using Data.Entities;
 using Data.Interfaces;
@@ -30,5 +31,33 @@ public class ProjectRepository(DataContext context) : IProjectRepository
     public IEnumerable<ProjectEntity> GetAll()
     {
         return _context.Projects.Include(x => x.Customer).ToList();
+    }
+
+    public ProjectEntity Get(Expression<Func<ProjectEntity, bool>> expression)
+    {
+        if (expression == null)
+            return null!;
+        return _context.Projects.Include(x => x.Customer).FirstOrDefault(expression) ?? null!;
+    }
+
+    public ProjectEntity Update(ProjectEntity updatedEntity)
+    {
+        if (updatedEntity == null)
+            return null!;
+        try
+        {
+            var existingEntity = Get(x => x.Id == updatedEntity.Id);
+            if (existingEntity == null)
+                return null!;
+
+            _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
+            _context.SaveChanges();
+            return existingEntity;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error updating project entity :: {ex.Message}");
+            return null!;
+        }
     }
 }

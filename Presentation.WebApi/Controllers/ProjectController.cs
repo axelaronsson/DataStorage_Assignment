@@ -32,5 +32,28 @@ namespace Presentation.WebApi.Controllers
             var result = _projectService.GetAllProjects();
             return Ok(result);
         }
+
+        [EnableCors("CorsPolicy")]
+        [HttpGet("Get")]
+        public IActionResult Get([FromQuery(Name = "projectId")] string projectId)
+        {
+            var result = _projectService.GetProject(x => x.Id == Convert.ToInt32(projectId));
+            //var someProduct = _projectService.Get(x => x.Id == 1);
+            //return (IActionResult)someProduct;
+            //return Ok(someProduct);
+            if (result != null)
+                return Ok(result);
+
+            return BadRequest();
+        }
+
+        [EnableCors("CorsPolicy")]
+        [HttpPut]
+        public IActionResult Update(ProjectUpdateForm form)
+        {
+            var result = _projectService.UpdateProject(form);
+            //result.Title = result.Title + "put request";
+            return Ok(result);
+        }
     }
 }
