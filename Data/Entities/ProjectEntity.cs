@@ -7,6 +7,7 @@ public class ProjectEntity
 {
     [Key]
     public int Id { get; set; }
+    public string ProjectId { get; set; } = null!;
     public string Title { get; set; } = null!;
 
     [Column(TypeName = "date")]

@@ -33,6 +33,14 @@ public class ProjectRepository(DataContext context) : IProjectRepository
         return _context.Projects.Include(x => x.Customer).ToList();
     }
 
+    public ProjectEntity GetLast()
+    {
+        if (_context.Projects.Any())
+            return _context.Projects.OrderBy(x => x.Id).Last();
+        else
+            return null!;
+    }
+
     public ProjectEntity Get(Expression<Func<ProjectEntity, bool>> expression)
     {
         if (expression == null)

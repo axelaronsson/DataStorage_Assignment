@@ -9,5 +9,6 @@ namespace Data.Interfaces
         IEnumerable<ProjectEntity> GetAll();
         ProjectEntity Get(Expression<Func<ProjectEntity, bool>> expression);
         ProjectEntity Update(ProjectEntity entity);
+        ProjectEntity GetLast();
     }
 }

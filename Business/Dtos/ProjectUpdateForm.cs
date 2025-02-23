@@ -6,6 +6,7 @@ namespace Business.Dtos;
 public class ProjectUpdateForm
 {
     public int Id { get; set; }
+    public string ProjectId { get; set; } = null!;
     public string Title { get; set; } = null!;
 
     [Column(TypeName = "date")]
@@ -15,7 +16,7 @@ public class ProjectUpdateForm
     public DateTime EndDate { get; set; }
 
 
-    public int CustomerId { get; set; }
+    //public int CustomerId { get; set; }
     public CustomerEntity Customer { get; set; } = null!;
 
     public string Status { get; set; } = null!;

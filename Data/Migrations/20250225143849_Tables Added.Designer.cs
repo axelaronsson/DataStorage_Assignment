@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250223154202_Tables Added")]
+    [Migration("20250225143849_Tables Added")]
     partial class TablesAdded
     {
         /// <inheritdoc />
@@ -62,6 +62,10 @@ namespace Data.Migrations
 
                     b.Property<int>("ProductPrice")
                         .HasColumnType("int");
+
+                    b.Property<string>("ProjectId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("date");

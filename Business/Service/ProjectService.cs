@@ -19,8 +19,14 @@ public class ProjectService(IProjectRepository projectRepository, ICustomerServi
     {
         var customerEntity = _customerService.CreateCustomer(form.CustomerName);
 
-        // var entity = await _productRepository.GetAsync(x => x.Name == form.Name);
-        var entity = _projectRepository.Create(ProjectFactory.Create(form, customerEntity));
+        // var entity = _projectRepository.Get(x => x.Name == form.Name);
+        var lastId = 1;
+        if (_projectRepository.GetLast() != null)
+        {
+            lastId = _projectRepository.GetLast().Id + 1;
+        }
+        var projectId = "P-" + lastId.ToString();
+        var entity = _projectRepository.Create(ProjectFactory.Create(form, projectId, customerEntity));
 
         return entity;
     }
@@ -37,10 +43,10 @@ public class ProjectService(IProjectRepository projectRepository, ICustomerServi
         return entity ?? null!;
     }
 
-    public ProjectEntity UpdateProject(ProjectUpdateForm projectForm)
+    public ProjectEntity UpdateProject(ProjectUpdateForm projectUpdateForm)
     {
-        //var existingCustomer = _customerService.CheckIf();
-        var entity = _projectRepository.Update(ProjectFactory.Create(projectForm));
+        var existingCustomer = _customerService.CreateCustomer(projectUpdateForm.Customer.CustomerName);
+        var entity = _projectRepository.Update(ProjectFactory.Create(projectUpdateForm, existingCustomer));
         return entity;
         //var product = ProjectFactory.Create(entity);
         //return product ?? null!;
