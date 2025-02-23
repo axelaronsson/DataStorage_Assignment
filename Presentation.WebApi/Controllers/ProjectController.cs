@@ -1,5 +1,6 @@
 ﻿using Business.Dtos;
 using Business.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.WebApi.Controllers
@@ -10,6 +11,7 @@ namespace Presentation.WebApi.Controllers
     {
         private readonly IProjectService _projectService = projectService;
 
+        [EnableCors("CorsPolicy")]
         [HttpPost]
         public IActionResult Create(ProjectRegistrationForm form)
         {
@@ -22,6 +24,7 @@ namespace Presentation.WebApi.Controllers
             return Ok(result);
         }
 
+        [EnableCors("CorsPolicy")]
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
